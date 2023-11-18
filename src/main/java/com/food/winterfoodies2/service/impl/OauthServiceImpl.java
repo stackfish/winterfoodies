@@ -1,9 +1,10 @@
 package com.food.winterfoodies2.service.impl;
 
-import com.food.winterfoodies2.dto.JwtAuthResponse;
-import com.food.winterfoodies2.socialLogin.UserService;
+import com.food.winterfoodies2.dto.account.JwtAuthResponse;
+import com.food.winterfoodies2.entity.User;
 import com.food.winterfoodies2.security.JwtTokenProvider;
 import com.food.winterfoodies2.service.OauthService;
+import com.food.winterfoodies2.service.UserService;
 import com.food.winterfoodies2.socialLogin.KakaoTokenJsonData;
 import com.food.winterfoodies2.socialLogin.KakaoUserInfo;
 import com.food.winterfoodies2.socialLogin.NaverTokenJsonData;
@@ -65,9 +66,9 @@ public class OauthServiceImpl implements OauthService {
     }
 
     @Override
-    public JwtAuthResponse naverProcessOauth(String code, String state) {
+    public JwtAuthResponse naverProcessOauth(String code) {
         log.info("인가 코드를 이용하여 토큰을 받습니다.");
-        NaverTokenResponse naverTokenResponse = naverTokenJsonData.getToken(code, state);
+        NaverTokenResponse naverTokenResponse = naverTokenJsonData.getToken(code);
 
         log.info("토큰에 대한 정보입니다.{}", naverTokenResponse);
         NaverUserInfoResponse userInfo = naverUserInfo.getUserInfo(naverTokenResponse.getAccess_token());

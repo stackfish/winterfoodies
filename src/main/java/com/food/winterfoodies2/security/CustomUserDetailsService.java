@@ -32,7 +32,8 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .collect(Collectors.toSet());
 
 
-        return new org.springframework.security.core.userdetails.User(
+        return new CustomUserDetails(
+                user.getId(),
                 usernameOrEmail,
                 user.getPassword(),
                 authorities

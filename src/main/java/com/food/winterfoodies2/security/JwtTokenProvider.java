@@ -1,8 +1,12 @@
 package com.food.winterfoodies2.security;
 
+import com.food.winterfoodies2.entity.User;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -20,15 +24,19 @@ public class JwtTokenProvider {
     private long jwtExpirationDate;
 
     // Generate JWT token
+    // Generate JWT token
     public String generateToken(Authentication authentication){
-        String username = authentication.getName();
+        CustomUserDetails principal = (CustomUserDetails) authentication.getPrincipal();
+        Long userId = principal.getId();
+        String username = principal.getUsername();
 
         Date currentDate = new Date();
-
         Date expireDate = new Date(currentDate.getTime() + jwtExpirationDate);
 
         String token = Jwts.builder()
-                .setSubject(username)
+                .setSubject(userId.toString()) // Set the user ID as the subject
+                .claim("userId", userId) // Add the user ID as a claim
+                .claim("username", username) // Add the username as a claim
                 .setIssuedAt(new Date())
                 .setExpiration(expireDate)
                 .signWith(key())
@@ -37,24 +45,28 @@ public class JwtTokenProvider {
         return token;
     }
 
-    private Key key(){
-        return Keys.hmacShaKeyFor(
-                Decoders.BASE64.decode(jwtSecret)
-        );
-    }
-
-    // Get username from JWT token
-    public String getUsername(String token){
+    // Get user details from JWT token
+    public UserClaims getUserClaims(String token){
         Claims claims = Jwts.parserBuilder()
                 .setSigningKey(key())
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
 
-        String username = claims.getSubject();
+        Long userId = claims.get("userId", Long.class);
+        String username = claims.get("username", String.class);
 
-        return username;
+        return new UserClaims(userId, username);
     }
+
+    @Getter
+    @AllArgsConstructor
+    public static class UserClaims {
+        private final Long userId;
+        private final String username;
+
+    }
+
 
     // Validate JWT Token
     public boolean validateToken(String token){
@@ -63,6 +75,12 @@ public class JwtTokenProvider {
                     .build()
                     .parse(token);
             return true;
+    }
+
+    private Key key(){
+        return Keys.hmacShaKeyFor(
+                Decoders.BASE64.decode(jwtSecret)
+        );
     }
 
 }

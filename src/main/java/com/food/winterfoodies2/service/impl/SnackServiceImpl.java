@@ -7,7 +7,7 @@ import com.food.winterfoodies2.service.SnackService;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;

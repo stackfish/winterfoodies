@@ -1,12 +1,19 @@
 package com.food.winterfoodies2.repository;
 
 import com.food.winterfoodies2.entity.Store;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
+@Repository
 public interface StoreRepository extends JpaRepository<Store, Long> {
-    @Query(value = "SELECT s FROM Store s WHERE s.category.id = :categoryId AND ST_Distance_Sphere(point(:longitude, :latitude), point(s.longitude, s.latitude)) <= 5000")
-    List<Store> findStoresInProximityAndCategory(double latitude, double longitude, int categoryId);
+    Optional<Store> findByStoreId(String storeId);
+
+    @NotNull
+    Optional<Store> findById(@NotNull Long storeId);
+
+    List<Store> findByNameContainingIgnoreCase(String name);
 }

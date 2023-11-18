@@ -26,6 +26,22 @@
             <artifactId>modelmapper</artifactId>
             <version>3.1.1</version>
         </dependency>
+            <!-- AWS Java SDK for S3 -->
+
+        <dependency>
+            <groupId>com.twilio.sdk</groupId>
+            <artifactId>twilio</artifactId>
+            <version>8.21.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-s3</artifactId>
+            <version>1.12.118</version> <!-- 사용하는 AWS SDK 버전에 맞게 조정하세요 -->
+        </dependency>
+
+
+
 
         <dependency>
             <groupId>org.webjars.npm</groupId>
@@ -122,15 +138,18 @@
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.keycloak/keycloak-core -->
+        
         <dependency>
-            <groupId>org.keycloak</groupId>
-            <artifactId>keycloak-core</artifactId>
-            <version>22.0.4</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
-
         <!-- Keycloak Spring Security Adapter -->
 
-
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>3.7.0</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>

@@ -15,4 +15,5 @@ public class ErrorDetails {
     private LocalDateTime timeStamp;
     private String message;
     private String details;
+    private String statusCode;  // 상태 코드 필드 추가
 }

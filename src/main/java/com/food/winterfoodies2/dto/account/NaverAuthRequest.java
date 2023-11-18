@@ -1,11 +1,11 @@
-package com.food.winterfoodies2.dto;
+package com.food.winterfoodies2.dto.account;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class NaverOauthCodeDto {
+public class NaverAuthRequest {
     private String code;
     private String state;
 

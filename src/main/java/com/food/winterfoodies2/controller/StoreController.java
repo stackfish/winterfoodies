@@ -1,40 +1,73 @@
 package com.food.winterfoodies2.controller;
 
-import com.food.winterfoodies2.entity.Store;
+import com.food.winterfoodies2.dto.ApiResponseSuccessDto;
+import com.food.winterfoodies2.dto.StoreDto;
+import com.food.winterfoodies2.service.CategoryService;
 import com.food.winterfoodies2.service.StoreService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import com.food.winterfoodies2.service.StoreSortingService;
+import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin({"*"})
 @RestController
-@RequestMapping("/store")
+@RequestMapping("/main/menu-detail")
+@AllArgsConstructor
 public class StoreController {
+
     private final StoreService storeService;
+    private final StoreSortingService storeSortingService;
+    private final CategoryService categoryService; // Added
 
-    public StoreController(StoreService storeService) {
-        this.storeService = storeService;
+    @GetMapping("/{categoryId}/nearby")
+    public ResponseEntity<ApiResponseSuccessDto> getNearbyStoresInCategory(@PathVariable Long categoryId,
+                                                                           @RequestParam Double latitude,
+                                                                           @RequestParam Double longitude) {
+        List<StoreDto> stores = storeService.getNearbyStoresInCategory(categoryId, latitude, longitude);
+        String categoryName = categoryService.getCategoryById(categoryId).getName(); // Added
+        return ResponseEntity.ok(new ApiResponseSuccessDto(categoryName, stores));
     }
 
-    @GetMapping("/proximity")
-    public List<Store> getStoresByProximity(@RequestParam double latitude, @RequestParam double longitude, @RequestParam int categoryId) {
-        return storeService.getStoresByProximity(latitude, longitude, categoryId);
+    @GetMapping("/{categoryId}/nearby/proximity")
+    public ResponseEntity<ApiResponseSuccessDto> getNearbyStoresInCategoryByProximity(@PathVariable Long categoryId,
+                                                                                      @RequestParam Double latitude,
+                                                                                      @RequestParam Double longitude) {
+        List<StoreDto> stores = storeService.getNearbyStoresInCategory(categoryId, latitude, longitude);
+        stores = storeSortingService.sortStoresByProximity(stores);
+        String categoryName = categoryService.getCategoryById(categoryId).getName(); // Added
+        return ResponseEntity.ok(new ApiResponseSuccessDto(categoryName, stores));
     }
 
-    @GetMapping("/sales-volume")
-    public List<Store> getStoresBySalesVolume(@RequestParam double latitude, @RequestParam double longitude, @RequestParam int categoryId) {
-        return storeService.getStoresBySalesVolume(latitude, longitude, categoryId);
+    @GetMapping("/{categoryId}/nearby/review-count")
+    public ResponseEntity<ApiResponseSuccessDto> getNearbyStoresInCategoryByReviewCount(@PathVariable Long categoryId,
+                                                                                        @RequestParam Double latitude,
+                                                                                        @RequestParam Double longitude) {
+        List<StoreDto> stores = storeService.getNearbyStoresInCategory(categoryId, latitude, longitude);
+        stores = storeSortingService.sortStoresByReviewCount(stores);
+        String categoryName = categoryService.getCategoryById(categoryId).getName(); // Added
+        return ResponseEntity.ok(new ApiResponseSuccessDto(categoryName, stores));
     }
 
-    @GetMapping("/review-count")
-    public List<Store> getStoresByReviewCount(@RequestParam double latitude, @RequestParam double longitude, @RequestParam int categoryId) {
-        return storeService.getStoresByReviewCount(latitude, longitude, categoryId);
+    @GetMapping("/{categoryId}/nearby/rating")
+    public ResponseEntity<ApiResponseSuccessDto> getNearbyStoresInCategoryByRating(@PathVariable Long categoryId,
+                                                                                   @RequestParam Double latitude,
+                                                                                   @RequestParam Double longitude) {
+        List<StoreDto> stores = storeService.getNearbyStoresInCategory(categoryId, latitude, longitude);
+        stores = storeSortingService.sortStoresByRating(stores);
+        String categoryName = categoryService.getCategoryById(categoryId).getName(); // Added
+        return ResponseEntity.ok(new ApiResponseSuccessDto(categoryName, stores));
     }
 
-    @GetMapping("/rating")
-    public List<Store> getStoresByRating(@RequestParam double latitude, @RequestParam double longitude, @RequestParam int categoryId) {
-        return storeService.getStoresByRating(latitude, longitude, categoryId);
+    @GetMapping("/{categoryId}/nearby/sales-volume")
+    public ResponseEntity<ApiResponseSuccessDto> getNearbyStoresInCategoryBySalesVolume(@PathVariable Long categoryId,
+                                                                                        @RequestParam Double latitude,
+                                                                                        @RequestParam Double longitude) {
+        List<StoreDto> stores = storeService.getNearbyStoresInCategory(categoryId, latitude, longitude);
+        stores = storeSortingService.sortStoresBySalesVolume(stores);
+        String categoryName = categoryService.getCategoryById(categoryId).getName();
+        return ResponseEntity.ok(new ApiResponseSuccessDto(categoryName, stores));
     }
+
 }

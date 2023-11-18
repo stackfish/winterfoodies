@@ -4,16 +4,19 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.http.HttpStatus;
 
 @Getter
 @Setter
 @NoArgsConstructor
-public class ApiResponseErrorDto {
+@AllArgsConstructor
+public class ApiResponseErrorDto implements ApiResponseDto {
     private String status = "error";
+    private String statusCode;
     private String message;
 
-    public ApiResponseErrorDto(final String status, final String message) {
-        this.status = status;
-        this.message = message;// 11
+    public ApiResponseErrorDto(String message, String statusCode) {
+        this.message = message;
+        this.statusCode = statusCode;
     }
 }

@@ -46,9 +46,6 @@ public class Winterfoodies2Application implements CommandLineRunner{
 
     private RoleRepository roleRepository;
 
-
-
-
     @Override
     public void run(String... args) throws Exception {
         Role adminRole = new Role();

@@ -9,12 +9,11 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ApiResponseSuccessDto {
+public class ApiResponseSuccessDto implements ApiResponseDto {
     private String status = "success";
     private Object data;
 
     public ApiResponseSuccessDto(Object data) {
-        this.data = data;// 17
-    }// 18
-
+        this.data = data;
+    }
 }

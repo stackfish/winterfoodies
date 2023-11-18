@@ -22,8 +22,8 @@ public class NaverTokenJsonData {
     @Value("${spring.security.oauth2.client.registration.naver.client-secret}")
     private String CLIENT_SECRET;
 
-    public NaverTokenResponse getToken(String code, String state) {
-        String uri = TOKEN_URI + "?grant_type=" + GRANT_TYPE + "&client_id=" + CLIENT_ID + "&client_secret=" + CLIENT_SECRET + "&redirect_uri=" + REDIRECT_URI + "&code=" + code + "&state=" + state;
+    public NaverTokenResponse getToken(String code) {
+        String uri = TOKEN_URI + "?grant_type=" + GRANT_TYPE + "&client_id=" + CLIENT_ID + "&client_secret=" + CLIENT_SECRET + "&redirect_uri=" + REDIRECT_URI + "&code=" + code;
         System.out.println(uri);
 
         Mono<NaverTokenResponse> response = webClient.get()

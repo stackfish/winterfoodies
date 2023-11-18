@@ -1,4 +1,4 @@
-package com.food.winterfoodies2.dto;
+package com.food.winterfoodies2.dto.account;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,9 +9,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginDto {
-    private String usernameOrEmail;
+public class RegisterDto {
+    private String phoneNumber;
+    private String email;
     private String password;
-
-
+    private String username;
 }
